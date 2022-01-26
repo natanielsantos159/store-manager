@@ -1,16 +1,19 @@
-const productService = require('../services/ProductService');
+const productService = require('../services/productService');
 
-const createProduct = async (req, res) => {
+const create = async (req, res) => {
   const { name, quantity } = req.body;
 
   try {
-    const newProduct = await productService.createProduct({ name, quantity });
+    const newProduct = await productService.create({ name, quantity: Number(quantity) });
     res.status(201).json(newProduct);
-  } catch (e) {
-
+  } catch (err) {
+    if (err.message === 'Product already exists') {
+      return res.status(409).json({ message: err.message });
+    }
+    res.status(400).send(err);
   }
 };
 
-module.expors = {
-  createProduct,
+module.exports = {
+  create,
 };

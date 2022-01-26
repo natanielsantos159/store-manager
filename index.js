@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
+const productController = require('./controllers/productController');
 const validateProductName = require('./middlewares/validateProductName');
 const validateProductQuantity = require('./middlewares/validateProductQuantity');
 
@@ -11,8 +12,7 @@ const validateProductQuantity = require('./middlewares/validateProductQuantity')
 app.get('/', (_request, response) => {
   response.send();
 });
-
-app.post('/products', validateProductName, validateProductQuantity);
+app.post('/products', validateProductName, validateProductQuantity, productController.create);
 
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);
