@@ -1,9 +1,18 @@
 require('dotenv').config();
+const express = require('express');
+
+const app = express();
+app.use(express.json());
+
+const validateProductName = require('./middlewares/validateProductName');
+const validateProductQuantity = require('./middlewares/validateProductQuantity');
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
 });
+
+app.post('/products', validateProductName, validateProductQuantity);
 
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);
