@@ -20,6 +20,12 @@ app.get('/products', productController.getAll);
 
 app.get('/products/:id', validateProductId, productController.getById);
 
+app.put('/products/:id', 
+  validateProductId, 
+  validateProductName, 
+  validateProductQuantity, 
+  productController.update);
+
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);
 });
