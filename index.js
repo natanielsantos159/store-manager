@@ -26,6 +26,8 @@ app.put('/products/:id',
   validateProductQuantity, 
   productController.update);
 
+app.delete('/products/:id', validateProductId, productController.deleteProduct);
+
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);
 });
