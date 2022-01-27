@@ -15,6 +15,8 @@ app.get('/', (_request, response) => {
 
 app.post('/products', validateProductName, validateProductQuantity, productController.create);
 
+app.get('/products', productController.getAll);
+
 app.get('/products/:id', productController.getById);
 
 app.listen(process.env.PORT, () => {
