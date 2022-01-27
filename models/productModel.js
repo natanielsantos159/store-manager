@@ -29,11 +29,11 @@ const update = async ({ id, name, quantity }) => {
   try {
     await connection.execute(
       'UPDATE StoreManager.products SET id=?, name=?, quantity=? WHERE id=? ',
-      [id, name, quantity],
+      [id, name, quantity, id],
     );
     return { id, name, quantity };
   } catch (err) {
-    return err;
+    console.log(err);
   }
 };
 
