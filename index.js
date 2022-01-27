@@ -11,6 +11,7 @@ const validateProductName = require('./middlewares/validateProductName');
 const validateProductQuantity = require('./middlewares/validateProductQuantity');
 const validateProductId = require('./middlewares/validateProductId');
 const validateSaleProductId = require('./middlewares/validateSaleProductId');
+const validateSaleProductQuantity = require('./middlewares/validateSaleProductQuantity');
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
@@ -31,7 +32,7 @@ app.put('/products/:id',
 
 app.delete('/products/:id', validateProductId, productController.deleteById);
 
-app.post('/sales', validateSaleProductId, validateProductQuantity, saleController.addSales);
+app.post('/sales', validateSaleProductId, validateSaleProductQuantity, saleController.addSales);
 
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);

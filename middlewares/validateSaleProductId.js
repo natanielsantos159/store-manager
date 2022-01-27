@@ -1,7 +1,10 @@
-const validateSaleProductId = (req, res, next) => {  
-  if (!('product_id' in req.body)) {
-    return res.status(404).json({ message: '"product_id" is required' });        
-  }
+const validateSaleProductId = (req, res, next) => {
+  const sales = req.body;
+  sales.forEach((sale) => {
+    if (!('product_id' in sale)) {
+      return res.status(404).json({ message: '"product_id" is required' });        
+    }
+  });
 
   next();
 };
