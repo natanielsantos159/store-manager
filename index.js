@@ -12,7 +12,10 @@ const validateProductQuantity = require('./middlewares/validateProductQuantity')
 app.get('/', (_request, response) => {
   response.send();
 });
+
 app.post('/products', validateProductName, validateProductQuantity, productController.create);
+
+app.get('/products/:id', productController.getById);
 
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);

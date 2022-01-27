@@ -17,7 +17,16 @@ const create = async ({ name, quantity }) => {
   }
 };
 
+const getById = async (id) => {
+  const [rows] = await connection.execute(
+    'SELECT id FROM StoreManager.products WHERE id=?', 
+    [id],
+  );
+  return rows[0];
+};
+
 module.exports = {
   getAll,
   create,
+  getById,
 };

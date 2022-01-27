@@ -14,6 +14,21 @@ const create = async (req, res) => {
   }
 };
 
+const getById = async (req, res) => {
+  const { id } = req.params;
+  const numId = Number(id);
+  
+  if (!numId) {
+    return res.status(404).json({ message: 'Product not found' });
+  }
+
+  const foundProduct = await productService.getById(id);
+  if (!foundProduct) return res.status(404).json({ message: 'Product not found' });
+
+  res.status(200).json(foundProduct);
+};
+
 module.exports = {
   create,
+  getById,
 };
