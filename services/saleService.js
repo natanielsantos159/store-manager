@@ -7,10 +7,12 @@ const serialize = (sale) => ({
 
 const addSales = async (sales) => {
   const newSaleId = await saleModel.createNewSale();
-  sales.map((sale) => serialize(sale))
-    .forEach(async (sale) => {
-    await saleModel.addSaleProducts({ saleId: newSaleId, ...sale }); 
-  });
+  const serializedSales = sales.map(serialize);
+
+  const promisesArray = serializedSales
+    .map((sale) => saleModel.addSaleProducts({ saleId: newSaleId, ...sale }));
+
+  await Promise.all(promisesArray); // aguarda todas as sales serem adicionadas
   return newSaleId;
 };
 
