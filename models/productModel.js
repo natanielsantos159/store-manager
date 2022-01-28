@@ -43,7 +43,6 @@ const deleteById = async (id) => {
   } catch (err) {
     console.log(err);
   }
-  
 };
 
 module.exports = {
