@@ -34,6 +34,8 @@ app.delete('/products/:id', validateProductId, productController.deleteById);
 
 app.get('/sales', saleController.getAll);
 
+app.get('/sales/:id', saleController.getById);
+
 app.post('/sales', validateSaleProductId, validateSaleProductQuantity, saleController.addSales);
 
 app.listen(process.env.PORT, () => {
