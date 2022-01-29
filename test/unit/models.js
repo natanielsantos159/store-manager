@@ -31,7 +31,6 @@ describe("Testa o arquivo ProductModel", () => {
 
     it("deve retornar um array com duas posições", async () => {
       const response = await productModel.getAll();
-      console.log(response)
       expect(response).to.be.an('array');
       expect(response.length).to.be.equal(2);
     });
@@ -188,6 +187,53 @@ describe('Testa o arquivo saleModel', () => {
       const response = await saleModel.getAll();
       response.forEach((obj) => {
         expect(obj.saleId).to.be.a('number');
+        expect(obj.date).to.be.an('string');
+        expect(obj.product_id).to.be.a('number');
+        expect(obj.quantity).to.be.a('number');
+      })
+    })
+  })
+
+  describe('função getById', () => {
+
+    before(async () => {
+      const response = [[
+          { 
+            date: "2021-09-09T04:54:29.000Z",
+            product_id: 1,
+            quantity: 2
+          },
+          {
+            date: "2021-09-09T04:54:54.000Z",
+            product_id: 2,
+            quantity: 2
+          }
+        ],
+        []
+      ];
+
+      sinon.stub(connection, 'execute').resolves(response);
+    })
+
+    after(async () => {
+      connection.execute.restore();
+    })
+
+    it('deve retornar um array', async () => {
+      const response = await saleModel.getById(1);
+      expect(response).to.be.an('array');
+    })
+
+    it('deve retornar um array com objetos com as chaves esperadas', async () => {
+      const response = await saleModel.getById(1);
+      response.forEach((obj) => {
+        expect(obj).to.be.all.keys(['date', 'product_id', 'quantity']);
+      })
+    })
+
+    it('deve retornar um array com objetos com as chaves esperadas', async () => {
+      const response = await saleModel.getById(1);
+        response.forEach((obj) => {
         expect(obj.date).to.be.an('string');
         expect(obj.product_id).to.be.a('number');
         expect(obj.quantity).to.be.a('number');
