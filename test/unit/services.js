@@ -59,5 +59,34 @@ describe('Testa o arquivo productService', () => {
       })
     })
   });
+
+  describe('função getById', () => {
+    
+    before(async () => {
+      const response = {
+          id: 1,
+          name: "produto A",
+          quantity: 10
+        };
+      sinon.stub(productModel, 'getById').resolves(response);
+    })
+
+    after(async () => {
+      productModel.getById.restore();
+    })
+
+    it('deve retornar um objeto com as propriedades esperadas', async () => {
+      const response = await productService.getById(1);
+      expect(response).to.be.an('object');
+      expect(response).to.have.all.keys(['id', 'name', 'quantity']);
+    })
+
+    it('deve retornar um objeto com propriedades os tipos esperados', async () => {
+      const response = await productService.getById(1);
+      expect(response.id).to.be.an('number');
+      expect(response.name).to.be.an('string');
+      expect(response.quantity).to.be.an('number');
+    })
+  })
   
 })
