@@ -3,6 +3,7 @@ const { expect } = require('chai');
 
 const connection = require('../../models/connection');
 const productModel = require('../../models/productModel');
+const saleModel = require('../../models/saleModel');
 
 describe("Testa o arquivo ProductModel", () => {
 
@@ -131,6 +132,66 @@ describe("Testa o arquivo ProductModel", () => {
     it('deve retornar um objeto identico ao que foi passado como parametro', async () => {
       const response = await productModel.update(paramObj);
       expect(response).to.be.deep.equal(paramObj)
+    })
+  })
+})
+
+describe('Testa o arquivo saleModel', () => {
+
+  describe('função getAll', () => {
+    
+    before(async () => {
+      const response = [[
+          {
+            saleId: 1,
+            date: "2021-09-09T04:54:29.000Z",
+            product_id: 1,
+            quantity: 2
+          },
+          {
+            saleId: 1,
+            date: "2021-09-09T04:54:54.000Z",
+            product_id: 2,
+            quantity: 2
+          }
+        ],
+        []
+      ];
+
+      sinon.stub(connection, 'execute').resolves(response);
+    })
+
+    after(async () => {
+      connection.execute.restore();
+    })
+
+    it('deve retornar um array', async () => {
+      const response = await saleModel.getAll();
+      expect(response).to.be.an('array');
+    })
+
+    it('o array deve conter apenas objetos', async () => {
+      const response = await saleModel.getAll();
+      response.forEach((el) => {
+        expect(el).to.be.an('object');
+      })
+    })
+
+    it('os objetos devem ter as propriedades esperadas', async () => {
+      const response = await saleModel.getAll();
+      response.forEach((obj) => {
+        expect(obj).to.be.all.keys(['saleId', 'date', 'product_id', 'quantity']);
+      })
+    })
+
+    it('os objetos devem ter as propriedades com os tipos esperados', async () => {
+      const response = await saleModel.getAll();
+      response.forEach((obj) => {
+        expect(obj.saleId).to.be.a('number');
+        expect(obj.date).to.be.an('string');
+        expect(obj.product_id).to.be.a('number');
+        expect(obj.quantity).to.be.a('number');
+      })
     })
   })
 })
