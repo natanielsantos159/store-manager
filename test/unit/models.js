@@ -89,4 +89,48 @@ describe("Testa o arquivo ProductModel", () => {
       expect(response.quantity).to.be.a('number');
     });
   });
+
+  describe('função update', () => {
+
+    const paramObj = {
+      id: 2,
+      name: "produto B",
+      quantity: 20
+    };
+
+    before(async () => {
+      const response = [
+        [],
+        []
+      ];
+
+      sinon.stub(connection, 'execute').resolves(response);
+    })
+    
+    after(async () => {
+      connection.execute.restore();
+    })
+
+    it('deve retornar um objeto', async () => {
+      const response = await productModel.update(paramObj);
+      expect(response).to.be.an('object')
+    })
+
+    it('deve retornar um objeto com os parametros esperados', async () => {
+      const response = await productModel.update(paramObj);
+      expect(response).be.have.all.keys(['id', 'name', 'quantity']);
+    })
+
+    it('o objeto retornado deve conter os tipos esperados', async () => {
+      const response = await productModel.update(paramObj);
+      expect(response.id).to.be.a('number');
+      expect(response.name).to.be.an('string');
+      expect(response.quantity).to.be.a('number');
+    })
+
+    it('deve retornar um objeto identico ao que foi passado como parametro', async () => {
+      const response = await productModel.update(paramObj);
+      expect(response).to.be.deep.equal(paramObj)
+    })
+  })
 })
