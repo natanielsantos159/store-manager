@@ -240,4 +240,26 @@ describe('Testa o arquivo saleModel', () => {
       })
     })
   })
+
+  describe('função createNewSale', () => {
+    before(async () => {
+      const response = [
+          { 
+            insertId: 1,
+          },
+        []
+      ];
+
+      sinon.stub(connection, 'execute').resolves(response);
+    })
+
+    after(async () => {
+      connection.execute.restore();
+    })
+
+    it('deve retornar um id', async () => {
+      const response = await saleModel.createNewSale();
+      expect(response).to.be.an('number');
+    })
+  })
 })
